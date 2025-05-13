@@ -4,10 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PomoSharp.ViewModels;
 
-public partial class MainViewModel : ViewModelBase
+public partial class MainViewModel : ObservableObject
 {
-    public override string Name => "Main";
-
     [ObservableProperty]
     private bool _canShowHome;
 
