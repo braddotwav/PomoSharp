@@ -16,4 +16,8 @@ public partial class StatsViewModel : ViewModelBase
     {
         _report = Ioc.Default.GetRequiredService<JsonStorageProvider<Report>>().Data;
     }
+
+    public override void OnViewShow() { }
+
+    public override void OnViewHide() { }
 }
