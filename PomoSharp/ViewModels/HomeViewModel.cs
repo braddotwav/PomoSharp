@@ -1,6 +1,8 @@
 ﻿using PomoSharp.Services;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using PomoSharp.Messages;
 
 namespace PomoSharp.ViewModels;
 
@@ -32,6 +34,11 @@ public partial class HomeViewModel : ViewModelBase
 
         _stateMachine = new TimerStateMachine(_countdownTimer);
         _stateMachine.OnStateChanged += OnStateChanged;
+
+        WeakReferenceMessenger.Default.Register<SettingsSavedMessage>(this, (r, m) =>
+        {
+            _stateMachine.RefreshCurrentState();
+        });
     }
 
     private void OnCountdownComplete()
@@ -84,4 +91,8 @@ public partial class HomeViewModel : ViewModelBase
                 throw new InvalidOperationException("You are trying to set to a unknown state");
         }
     }
+
+    public override void OnViewShow() { }
+
+    public override void OnViewHide() { }
 }
