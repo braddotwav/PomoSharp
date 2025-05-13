@@ -36,6 +36,11 @@ public class TimerStateMachine
         CurrentState?.OnEnter();
         OnStateChanged?.Invoke(state);
     }
+
+    public void RefreshCurrentState()
+    {
+        CurrentState?.OnEnter();
+    }
 }
 
 public enum TimerStates
