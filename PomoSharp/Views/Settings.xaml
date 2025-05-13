@@ -2,11 +2,168 @@
     x:Class="PomoSharp.Views.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PomoSharp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:svg="https://github.com/dotnetprojects/SVGImage"
+    xmlns:usercontrols="clr-namespace:PomoSharp.UserControls"
+    xmlns:viewmodels="clr-namespace:PomoSharp.ViewModels"
+    d:Background="{StaticResource brush-primary-100}"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
+    d:DesignHeight="448"
+    d:DesignWidth="640"
     mc:Ignorable="d">
-    <Grid />
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+
+        <Style x:Key="Title" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,24,0" />
+            <Setter Property="FontFamily" Value="{StaticResource font-medium}" />
+            <Setter Property="FontSize" Value="{StaticResource text-base}" />
+            <Setter Property="Foreground" Value="{StaticResource brush-primary-800}" />
+        </Style>
+
+        <Style x:Key="Checkbox" TargetType="CheckBox">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border
+                            x:Name="Border"
+                            Background="{StaticResource brush-primary-200}"
+                            CornerRadius="4">
+                            <svg:SVGImage
+                                Width="14"
+                                Height="10"
+                                OverrideColor="{StaticResource clr-primary-700}"
+                                Source="/PomoSharp;component/Resources/Vectors/check.svg"
+                                Visibility="{Binding IsChecked, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibility}}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="16,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,0,0,16"
+                Style="{StaticResource Header}"
+                Text="General" />
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Allow Notification" />
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.AllowNotifications, Mode=TwoWay}"
+                        Style="{StaticResource Checkbox}" />
+                </StackPanel>
+                <Separator Height="12" Visibility="Hidden" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Auto Start Breaks" />
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.ShouldAutoStartBreak, Mode=TwoWay}"
+                        Style="{StaticResource Checkbox}" />
+                </StackPanel>
+                <Separator Height="12" Visibility="Hidden" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Auto Start Pomodoros" />
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.ShouldAutoStartPomodoro, Mode=TwoWay}"
+                        Style="{StaticResource Checkbox}" />
+                </StackPanel>
+                <Separator Height="12" Visibility="Hidden" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Long Break Interval" />
+                    <usercontrols:IntegerTextBox
+                        MaximumValue="10"
+                        MinimumValue="2"
+                        Rollback="{Binding DefaultSettings.LongBreakInterval}"
+                        Text="Intervals"
+                        Value="{Binding Settings.LongBreakInterval, Mode=TwoWay}" />
+                </StackPanel>
+                <Separator Height="12" Visibility="Hidden" />
+            </StackPanel>
+
+            <Separator Height="8" Visibility="Hidden" />
+
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,0,0,16"
+                Style="{StaticResource Header}"
+                Text="Timers" />
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="0,0,0,12"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Pomodoro" />
+                    <usercontrols:IntegerTextBox
+                        MaximumValue="60"
+                        MinimumValue="1"
+                        Rollback="{Binding DefaultSettings.PomodoroDuration}"
+                        Text="Minutes"
+                        Value="{Binding Settings.PomodoroDuration, Mode=TwoWay}" />
+                </StackPanel>
+                <Separator Width="48" Visibility="Hidden" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="0,0,0,12"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Short Break" />
+                    <usercontrols:IntegerTextBox
+                        MaximumValue="60"
+                        MinimumValue="1"
+                        Rollback="{Binding DefaultSettings.ShortDuration}"
+                        Text="Minutes"
+                        Value="{Binding Settings.ShortDuration, Mode=TwoWay}" />
+                </StackPanel>
+                <Separator Width="48" Visibility="Hidden" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="0,0,0,12"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="Long Break" />
+                    <usercontrols:IntegerTextBox
+                        MaximumValue="60"
+                        MinimumValue="1"
+                        Rollback="{Binding DefaultSettings.LongDuration}"
+                        Text="Minutes"
+                        Value="{Binding Settings.LongDuration, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
 </UserControl>
