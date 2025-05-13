@@ -2,7 +2,9 @@
 
 public class Settings : IEquatable<Settings>
 {
-    public TimerDurations TimerDurations { get; set; } = new();
+    public int PomodoroDuration { get; set; } = 25;
+    public int ShortDuration { get; set; } = 5;
+    public int LongDuration { get; set; } = 15;
     public int LongBreakInterval { get; set; } = 4;
     public bool ShouldAutoStartBreak { get; set; } = false;
     public bool ShouldAutoStartPomodoro { get; set; } = false;
