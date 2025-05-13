@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace PomoSharp.UserControls;
 
@@ -26,16 +26,25 @@ public partial class TitleBar : UserControl
 
     private void OnMaximiseApplication_Clicked(object sender, RoutedEventArgs e)
     {
-        bool isMaximized = Application.Current.MainWindow.WindowState == WindowState.Maximized;
-
-        Application.Current.MainWindow.WindowState = isMaximized ? WindowState.Normal : WindowState.Maximized;
+        ToggleWindowMaximizedState();
     }
 
     private void OnTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        if (e.ClickCount == 2) 
+        {
+            ToggleWindowMaximizedState();
+        }
+
         if (e.LeftButton == MouseButtonState.Pressed) 
         {
             Application.Current.MainWindow.DragMove();
         }
+    }
+
+    private void ToggleWindowMaximizedState() 
+    {
+        bool isMaximized = Application.Current.MainWindow.WindowState == WindowState.Maximized;
+        Application.Current.MainWindow.WindowState = isMaximized ? WindowState.Normal : WindowState.Maximized;
     }
 }
