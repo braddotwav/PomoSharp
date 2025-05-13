@@ -1,6 +1,6 @@
 ﻿namespace PomoSharp.Models;
 
-public class Settings
+public class Settings : IEquatable<Settings>
 {
     public TimerDurations TimerDurations { get; set; } = new();
     public int LongBreakInterval { get; set; } = 4;
@@ -9,10 +9,53 @@ public class Settings
     public bool AllowNotifications { get; set; } = true;
     public Theme Theme { get; set; } = Theme.LIGHT;
     public WindowBounds? WindowBounds { get; set; }
-}
 
 public enum Theme
 {
     LIGHT = 0,
     DARK = 1,
+    public Settings() { }
+
+    public Settings(Settings settings)
+    {
+        PomodoroDuration = settings.PomodoroDuration;
+        ShortDuration = settings.ShortDuration;
+        LongDuration = settings.LongDuration;
+        LongBreakInterval = settings.LongBreakInterval;
+        ShouldAutoStartBreak = settings.ShouldAutoStartBreak;
+        ShouldAutoStartPomodoro = settings.ShouldAutoStartPomodoro;
+        AllowNotifications = settings.AllowNotifications;
+        WindowBounds = settings.WindowBounds;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Settings);
+    }
+
+    public bool Equals(Settings? other)
+    {
+        if (other is null) return false;
+
+        return PomodoroDuration == other.PomodoroDuration &&
+               ShortDuration == other.ShortDuration &&
+               LongDuration == other.LongDuration &&
+               LongBreakInterval == other.LongBreakInterval &&
+               ShouldAutoStartBreak == other.ShouldAutoStartBreak &&
+               ShouldAutoStartPomodoro == other.ShouldAutoStartPomodoro &&
+               AllowNotifications == other.AllowNotifications;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(
+            PomodoroDuration,
+            ShortDuration,
+            LongDuration,
+            LongBreakInterval,
+            ShouldAutoStartBreak,
+            ShouldAutoStartPomodoro,
+            AllowNotifications
+        );
+    }
 }
