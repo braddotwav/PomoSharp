@@ -91,7 +91,7 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
 
     public override void OnEnter()
     {
-        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(1));
+        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.PomodoroDuration));
     }
 
     public override void OnExit()
@@ -177,7 +177,7 @@ public class ShortBreakState(TimerStateMachine stateMachine) : BreakState(stateM
 
     public override void OnEnter()
     {
-        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.TimerDurations.Short));
+        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.ShortDuration));
     }
 }
 
@@ -191,6 +191,6 @@ public class LongBreakState(TimerStateMachine stateMachine) : BreakState(stateMa
 
     public override void OnEnter()
     {
-        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.TimerDurations.Long));
+        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.LongDuration));
     }
 }
