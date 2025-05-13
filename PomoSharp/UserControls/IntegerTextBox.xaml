@@ -38,7 +38,7 @@
                 d:Text="Minutes"
                 FontFamily="{StaticResource font-regular}"
                 FontSize="{StaticResource text-base}"
-                Foreground="{StaticResource brush-primary-700}"
+                Foreground="{StaticResource brush-primary-800}"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" />
         </Grid>
     </Border>
