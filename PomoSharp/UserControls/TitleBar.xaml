@@ -21,7 +21,6 @@
                         <Border Name="Border" Background="Transparent">
                             <ContentPresenter />
                         </Border>
-
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource brush-primary-200}" />
@@ -30,6 +29,13 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style x:Key="WindowButtonIcon" TargetType="svg:SVGImage">
+            <Setter Property="Width" Value="12" />
+            <Setter Property="Height" Value="12" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="OverrideFillColor" Value="{StaticResource clr-primary-800}" />
         </Style>
     </UserControl.Resources>
 
@@ -48,6 +54,7 @@
                 Width="16"
                 Height="16"
                 HorizontalAlignment="Left"
+                IsTabStop="False"
                 Source="/PomoSharp;component/Resources/Vectors/pomosharp.svg" />
             <Separator Margin="2,0" />
             <TextBlock
@@ -64,30 +71,29 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <!--  Window Minimise Button  -->
-            <Button Click="OnMinimiseApplication_Clicked" Style="{StaticResource WindowButton}">
+            <Button
+                Click="OnMinimiseApplication_Clicked"
+                IsTabStop="False"
+                Style="{StaticResource WindowButton}">
                 <svg:SVGImage
-                    Width="12"
-                    Height="12"
                     Margin="0,6,0,0"
-                    OverrideColor="{StaticResource clr-primary-800}"
-                    Source="/PomoSharp;component/Resources/Vectors/minus.svg" />
+                    Source="/PomoSharp;component/Resources/Vectors/minus.svg"
+                    Style="{StaticResource WindowButtonIcon}" />
             </Button>
             <!--  Window Maximise Button  -->
-            <Button Click="OnMaximiseApplication_Clicked" Style="{StaticResource WindowButton}">
-                <svg:SVGImage
-                    Width="12"
-                    Height="12"
-                    OverrideColor="{StaticResource clr-primary-800}"
-                    Source="/PomoSharp;component/Resources/Vectors/square.svg" />
+            <Button
+                Click="OnMaximiseApplication_Clicked"
+                IsTabStop="False"
+                Style="{StaticResource WindowButton}">
+                <svg:SVGImage Source="/PomoSharp;component/Resources/Vectors/square.svg" Style="{StaticResource WindowButtonIcon}" />
             </Button>
 
             <!--  Window Close Button  -->
-            <Button Click="OnExitApplication_Clicked" Style="{StaticResource WindowButton}">
-                <svg:SVGImage
-                    Width="12"
-                    Height="12"
-                    OverrideColor="{StaticResource clr-primary-800}"
-                    Source="/PomoSharp;component/Resources/Vectors/close.svg" />
+            <Button
+                Click="OnExitApplication_Clicked"
+                IsTabStop="False"
+                Style="{StaticResource WindowButton}">
+                <svg:SVGImage Source="/PomoSharp;component/Resources/Vectors/close.svg" Style="{StaticResource WindowButtonIcon}" />
             </Button>
         </StackPanel>
     </Grid>

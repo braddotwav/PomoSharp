@@ -76,6 +76,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="NavigationRadioButtonIcon" TargetType="svg:SVGImage">
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="OverrideColor" Value="{StaticResource clr-primary-700}" />
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -123,11 +130,7 @@
                             GroupName="Navigation"
                             Style="{StaticResource NavigationRadioButton}"
                             ToolTip="Stats">
-                            <svg:SVGImage
-                                Width="20"
-                                Height="20"
-                                OverrideColor="{StaticResource clr-primary-700}"
-                                Source="/PomoSharp;component/Resources/Vectors/stats.svg" />
+                            <svg:SVGImage Source="/PomoSharp;component/Resources/Vectors/stats.svg" Style="{StaticResource NavigationRadioButtonIcon}" />
                         </RadioButton>
                         <RadioButton
                             Command="{Binding ChangeNavigationCommand}"
@@ -135,11 +138,7 @@
                             GroupName="Navigation"
                             Style="{StaticResource NavigationRadioButton}"
                             ToolTip="Settings">
-                            <svg:SVGImage
-                                Width="20"
-                                Height="20"
-                                OverrideColor="{StaticResource clr-primary-700}"
-                                Source="/PomoSharp;component/Resources/Vectors/settings.svg" />
+                            <svg:SVGImage Source="/PomoSharp;component/Resources/Vectors/settings.svg" Style="{StaticResource NavigationRadioButtonIcon}" />
                         </RadioButton>
                     </StackPanel>
 
@@ -151,15 +150,14 @@
                         Style="{StaticResource NavigationRadioButton}"
                         ToolTip="Home"
                         Visibility="{Binding CanShowHome, Converter={StaticResource BooleanToVisibility}}">
-                        <svg:SVGImage
-                            Width="20"
-                            Height="20"
-                            OverrideColor="{StaticResource clr-primary-700}"
-                            Source="/PomoSharp;component/Resources/Vectors/home.svg" />
+                        <svg:SVGImage Source="/PomoSharp;component/Resources/Vectors/home.svg" Style="{StaticResource NavigationRadioButtonIcon}" />
                     </RadioButton>
                 </Grid>
 
-                <ContentControl Grid.RowSpan="2" Content="{Binding CurrentViewModel}" />
+                <ContentControl
+                    Grid.RowSpan="2"
+                    Content="{Binding CurrentViewModel}"
+                    IsTabStop="False" />
             </Grid>
         </Border>
     </Grid>

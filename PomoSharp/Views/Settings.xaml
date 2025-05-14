@@ -39,6 +39,7 @@
                             <svg:SVGImage
                                 Width="14"
                                 Height="10"
+                                IsTabStop="False"
                                 OverrideColor="{StaticResource clr-primary-700}"
                                 Source="/PomoSharp;component/Resources/Vectors/check.svg"
                                 Visibility="{Binding IsChecked, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibility}}" />

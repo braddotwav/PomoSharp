@@ -92,7 +92,10 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="CheckBox">
                                     <Border Background="Transparent">
-                                        <svg:SVGImage x:Name="SVG" Source="/PomoSharp;component/Resources/Vectors/play.svg" />
+                                        <svg:SVGImage
+                                            x:Name="SVG"
+                                            IsTabStop="False"
+                                            Source="/PomoSharp;component/Resources/Vectors/play.svg" />
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsChecked" Value="True">
