@@ -62,6 +62,7 @@ public abstract class TimerState(TimerStateMachine stateMachine)
     public virtual void OnCompleted()
     {
         UpdateReport();
+        Report.Save();
     }
 
     public abstract void OnEnter();
