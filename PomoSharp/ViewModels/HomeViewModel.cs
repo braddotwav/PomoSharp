@@ -1,8 +1,9 @@
 ﻿using PomoSharp.Services;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using PomoSharp.Messages;
+using PomoSharp.StateMachine;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PomoSharp.ViewModels;
 
@@ -41,6 +42,12 @@ public partial class HomeViewModel : ViewModelBase
         });
     }
 
+    private void OnCountdownDurationChanged(TimeSpan duration)
+    {
+        RemainingTime = duration;
+        IsTimerRunning = _countdownTimer.IsRunning;
+    }
+
     private void OnCountdownComplete()
     {
         _notificationService.Push(_stateMachine.CurrentState.CompletedNotificationContext);
@@ -49,12 +56,6 @@ public partial class HomeViewModel : ViewModelBase
     private void OnStateChanged(TimerStates state)
     {
         CurrentState = state;
-    }
-
-    private void OnCountdownDurationChanged()
-    {
-        RemainingTime = _countdownTimer.Duration;
-        IsTimerRunning = _countdownTimer.IsRunning;
     }
 
     private void OnCountdownElapsed(TimeSpan elapsed)

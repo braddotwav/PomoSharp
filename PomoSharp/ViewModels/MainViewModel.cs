@@ -37,14 +37,14 @@ public partial class MainViewModel : ObservableObject
         _navigationService.Change<HomeViewModel>();
     }
 
-    private void OnDurationChanged()
+    private void OnDurationChanged(TimeSpan span)
     {
-        CountdownPercentage = 0;
+        ResetCountdownPercentage();
     }
 
     private void OnCountdownElapsed(TimeSpan elapsed)
     {
-        CountdownPercentage = RemaningTimeToPercentage(elapsed);
+        CountdownPercentage = CalculateRemainingTimeToPercentage(elapsed);
     }
 
     private void OnNavigationChanged(ViewModelBase view)
@@ -71,17 +71,20 @@ public partial class MainViewModel : ObservableObject
             case "Settings":
                 _navigationService.Change<SettingsViewModel>();
                 break;
-            default:
-                throw new InvalidOperationException($"Something went wrong trying to navigate to {navigate}");
         }
     }
 
-    private double RemaningTimeToPercentage(TimeSpan elapsed) 
+    private double CalculateRemainingTimeToPercentage(TimeSpan elapsed) 
     {
         if (elapsed.TotalSeconds == 0)
             return 0;
 
-        double progress = (elapsed.TotalSeconds / _countdownTimer.Duration.TotalSeconds);
+        double progress = elapsed.TotalSeconds / _countdownTimer.Duration.TotalSeconds;
         return Math.Clamp(progress, 0, 1);
+    }
+
+    private void ResetCountdownPercentage()
+    {
+        CountdownPercentage = 0;
     }
 }

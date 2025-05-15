@@ -5,7 +5,7 @@ public class NotificationContext
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
 
-    public static readonly NotificationContext DefaultTimerNotification = new NotificationContext()
+    public static readonly NotificationContext DefaultTimerNotification = new()
     {
         Title = "Timer Completed",
         Message = "A timer has completed."

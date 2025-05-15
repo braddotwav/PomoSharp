@@ -6,7 +6,7 @@ namespace PomoSharp.Services;
 public class CountdownTimer : IDisposable
 {
     public event Action? OnComplete;
-    public event Action? OnDurationChanged;
+    public event Action<TimeSpan>? OnDurationChanged;
     public event Action<TimeSpan>? OnElapsed;
     public TimeSpan Duration;
     public bool IsRunning { get; private set; } = false;
@@ -23,18 +23,17 @@ public class CountdownTimer : IDisposable
 
     private void OnTimerElapsed(object? sender, EventArgs e)
     {
-        if (_remainingTime.TotalSeconds > 0) 
-        {
-            _remainingTime = _remainingTime.Subtract(_oneSecondInterval);
+        _remainingTime = _remainingTime.Subtract(_oneSecondInterval);
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                OnElapsed?.Invoke(_remainingTime);
-            });
-            return;
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            OnElapsed?.Invoke(_remainingTime);
+        });
+
+        if (RemainingTimeHasReachedZero())
+        {
+            OnComplete?.Invoke();
         }
-        
-        OnComplete?.Invoke();
     }
 
     public void TogglePlay()
@@ -53,16 +52,16 @@ public class CountdownTimer : IDisposable
     {
         Duration = duration;
         _remainingTime = Duration;
-        OnDurationChanged?.Invoke();
+        OnDurationChanged?.Invoke(Duration);
     }
 
     public void Play()
     {
-        if (IsRunning)
-            return;
-
-        _timer.Start();
-        IsRunning = true;
+        if (!IsRunning) 
+        {
+            _timer.Start();
+            IsRunning = true;
+        }
     }
 
     public void Play(TimeSpan duration)
@@ -73,11 +72,16 @@ public class CountdownTimer : IDisposable
 
     public void Stop()
     {
-        if (!IsRunning)
-            return;
+        if (IsRunning) 
+        {
+            _timer.Stop();
+            IsRunning = false;
+        }
+    }
 
-        _timer.Stop();
-        IsRunning = false;
+    private bool RemainingTimeHasReachedZero() 
+    {
+        return _remainingTime == TimeSpan.Zero;
     }
 
     public void Dispose()
