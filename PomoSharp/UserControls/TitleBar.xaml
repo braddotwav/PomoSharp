@@ -55,7 +55,8 @@
                 Height="16"
                 HorizontalAlignment="Left"
                 IsTabStop="False"
-                Source="/PomoSharp;component/Resources/Vectors/pomosharp.svg" />
+                OverrideColor="{StaticResource clr-primary-800}"
+                Source="/PomoSharp;component/Resources/Vectors/pomo.svg" />
             <Separator Margin="2,0" />
             <TextBlock
                 Margin="0,1,0,0"
