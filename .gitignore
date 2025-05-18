@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Shell scripts
+/*.ps1
+
+# Builds
+/dist
