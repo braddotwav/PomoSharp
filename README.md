@@ -3,7 +3,7 @@
 # PomoSharp
 PomoSharp is a Pomodoro timer designed to boost focus and productivity. It features customizable durations, daily streak tracking, and detailed usage stats — all built with C# and WPF.
 
-A screenshot of the application can be found in the [Media]() folder.
+A screenshot of the application can be found in the [Media](https://github.com/braddotwav/PomoSharp/tree/main/Media) folder.
 
 Features
 ---------
@@ -15,7 +15,7 @@ Features
 
 Download
 ---------
-You can grab the latest release [here]()
+You can grab the latest release [here](https://github.com/braddotwav/PomoSharp/releases)
 
 Questions, issues
 ---------
@@ -30,4 +30,4 @@ Resources & Packages used
 
 License
 ---------
-This project is licensed under the [MIT License]()
+This project is licensed under the [MIT License](https://github.com/braddotwav/PomoSharp/blob/main/LICENSE)
