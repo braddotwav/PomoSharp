@@ -9,7 +9,7 @@ public abstract class TimerState(TimerStateMachine stateMachine)
     public virtual NotificationContext CompletedNotificationContext { get; } = NotificationContext.DefaultTimerNotification;
 
     protected JsonStorageProvider<Settings> Settings = Ioc.Default.GetRequiredService<JsonStorageProvider<Settings>>();
-    protected JsonStorageProvider<Report> Report = Ioc.Default.GetRequiredService<JsonStorageProvider<Report>>();
+    protected JsonStorageProvider<Stats> Report = Ioc.Default.GetRequiredService<JsonStorageProvider<Stats>>();
     protected TimerStateMachine StateMachine { get; private set; } = stateMachine;
     protected TimeSpan Duration => StateMachine.CountdownTimer.Duration;
 

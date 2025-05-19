@@ -10,11 +10,11 @@ public partial class StatsViewModel : ViewModelBase
     public override string Name => "Stats";
 
     [ObservableProperty]
-    private Report _report;
+    private Stats _stats;
 
     public StatsViewModel()
     {
-        _report = Ioc.Default.GetRequiredService<JsonStorageProvider<Report>>().Data;
+        _stats = Ioc.Default.GetRequiredService<JsonStorageProvider<Stats>>().Data;
     }
 
     public override void OnViewShow() { }

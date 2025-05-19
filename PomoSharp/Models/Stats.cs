@@ -1,6 +1,6 @@
 ﻿namespace PomoSharp.Models;
 
-public class Report
+public class Stats
 {
     public TimeSpan TotalHours { get; set; }
     public TimeSpan TotalFocusHours { get; set; }
