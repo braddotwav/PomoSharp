@@ -36,10 +36,10 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
     protected override void UpdateReport()
     {
         base.UpdateReport();
-        Report.Data.PomodorosCompleted++;
-        Report.Data.TotalFocusHours += Duration;
-        Report.Data.DailyStreak = CalculateDailyStreak(Report.Data.LastPomodoroCompletedAt);
-        Report.Data.LastPomodoroCompletedAt = DateTime.Now;
+        Stats.Data.PomodorosCompleted++;
+        Stats.Data.TotalFocusHours += Duration;
+        Stats.Data.DailyStreak = CalculateDailyStreak(Stats.Data.LastPomodoroCompletedAt);
+        Stats.Data.LastPomodoroCompletedAt = DateTime.Now;
     }
 
     private bool IsLongBreakDue()
@@ -56,8 +56,8 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
 
         return dayDifference switch
         {
-            0 => Report.Data.DailyStreak,
-            1 => Report.Data.DailyStreak + 1,
+            0 => Stats.Data.DailyStreak,
+            1 => Stats.Data.DailyStreak + 1,
             _ => 1
         };
     }

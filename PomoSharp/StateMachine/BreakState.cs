@@ -21,7 +21,7 @@ public abstract class BreakState(TimerStateMachine stateMachine) : TimerState(st
     {
         base.UpdateReport();
 
-        Report.Data.TotalBreakHours += Duration;
+        Stats.Data.TotalBreakHours += Duration;
     }
 
     public override void OnEnter() { }
