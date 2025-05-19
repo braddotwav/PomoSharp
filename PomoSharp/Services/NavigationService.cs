@@ -23,6 +23,9 @@ public class NavigationService : INavigationService
 
     public void Register(ViewModelBase viewModel)
     {
+        if (_registeredViewModels.Any(x => x.GetType() == viewModel.GetType()))
+            throw new InvalidOperationException($"{nameof(ViewModelBase)} is already registered");
+
         _registeredViewModels.Add(viewModel);
     }
 }
