@@ -5,19 +5,20 @@ namespace PomoSharp.Services;
 
 public class CountdownTimer : IDisposable
 {
+    public TimeSpan Duration { get; private set; }
+    public bool IsRunning { get; private set; } = false;
+
     public event Action? OnComplete;
     public event Action<TimeSpan>? OnDurationChanged;
     public event Action<TimeSpan>? OnElapsed;
-    public TimeSpan Duration;
-    public bool IsRunning { get; private set; } = false;
-
+    
     private readonly TimeSpan _oneSecondInterval = TimeSpan.FromSeconds(1);
     private readonly Timer _timer;
     private TimeSpan _remainingTime;
 
     public CountdownTimer()
     {
-        _timer = new Timer(TimeSpan.FromSeconds(1));
+        _timer = new Timer(_oneSecondInterval);
         _timer.Elapsed += OnTimerElapsed;
     }
 
@@ -57,29 +58,17 @@ public class CountdownTimer : IDisposable
 
     public void Play()
     {
-        if (!IsRunning) 
-        {
-            _timer.Start();
-            IsRunning = true;
-        }
-    }
-
-    public void Play(TimeSpan duration)
-    {
-        SetDuration(duration);
-        Play();
+        _timer.Start();
+        IsRunning = true;
     }
 
     public void Stop()
     {
-        if (IsRunning) 
-        {
-            _timer.Stop();
-            IsRunning = false;
-        }
+        _timer.Stop();
+        IsRunning = false;
     }
 
-    private bool RemainingTimeHasReachedZero() 
+    private bool RemainingTimeHasReachedZero()
     {
         return _remainingTime == TimeSpan.Zero;
     }
