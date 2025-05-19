@@ -54,24 +54,35 @@ public partial class MainViewModel : ObservableObject
         CanShowHome = view is not HomeViewModel;
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanExecuteChangeNavigation))]
     private void ChangeNavigation(object? param)
     {
-        if (param is not string navigate) return;
-        if (string.IsNullOrEmpty(navigate)) return;
-
-        switch (navigate)
+        try
         {
-            case "Home":
-                _navigationService.Change<HomeViewModel>();
-                break;
-            case "Stats":
-                _navigationService.Change<StatsViewModel>();
-                break;
-            case "Settings":
-                _navigationService.Change<SettingsViewModel>();
-                break;
+            switch (param as string)
+            {
+                case "Home":
+                    _navigationService.Change<HomeViewModel>();
+                    break;
+                case "Stats":
+                    _navigationService.Change<StatsViewModel>();
+                    break;
+                case "Settings":
+                    _navigationService.Change<SettingsViewModel>();
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown navigation target: '{param}");
+            }
         }
+        catch (Exception)
+        {
+            // todo: log exception
+        }
+    }
+
+    private bool CanExecuteChangeNavigation(object? param)
+    {
+        return param is string text && !string.IsNullOrEmpty(text);
     }
 
     private double CalculateRemainingTimeToPercentage(TimeSpan elapsed) 
