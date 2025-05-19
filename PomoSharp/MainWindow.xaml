@@ -15,6 +15,7 @@
     Height="480"
     MinWidth="700"
     MinHeight="480"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     Background="{StaticResource brush-primary-100}"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -26,10 +27,6 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
-
-    <Window.DataContext>
-        <viewmodels:MainViewModel />
-    </Window.DataContext>
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />

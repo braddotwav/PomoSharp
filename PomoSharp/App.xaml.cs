@@ -1,37 +1,51 @@
 ﻿using System.Windows;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using PomoSharp.Models;
 using PomoSharp.Services;
+using PomoSharp.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace PomoSharp
+namespace PomoSharp;
+
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    private readonly JsonStorageProvider<Settings> _settingsStorage;
+    private readonly JsonStorageProvider<Stats> _statsStorage;
+    private readonly MainViewModel _mainViewModel;
+
+    public App()
     {
-        protected override void OnStartup(StartupEventArgs e)
+        _settingsStorage = new("settings");
+        _statsStorage = new("stats");
+
+        Ioc.Default.ConfigureServices(
+            new ServiceCollection()
+            .AddSingleton(_settingsStorage)
+            .AddSingleton(_statsStorage)
+            .AddSingleton<MainViewModel>()
+            .BuildServiceProvider()
+        );
+
+        _mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        Window mainView = new MainWindow
         {
-            base.OnStartup(e);
+            DataContext = _mainViewModel
+        };
 
-            JsonStorageProvider<Settings> settingsStorage = new("settings");
-            JsonStorageProvider<Report> reportStorage = new("report");
+        mainView.Show();
+    }
 
-            Ioc.Default.ConfigureServices(
-                new ServiceCollection()
-                .AddSingleton(settingsStorage)
-                .AddSingleton(reportStorage)
-                .BuildServiceProvider()
-            );
-        }
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _settingsStorage.Save();
+        _statsStorage.Save();
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            Ioc.Default.GetRequiredService<JsonStorageProvider<Settings>>().Save();
-            Ioc.Default.GetRequiredService<JsonStorageProvider<Report>>().Save();
-
-            base.OnExit(e);
-        }
+        base.OnExit(e);
     }
 }
