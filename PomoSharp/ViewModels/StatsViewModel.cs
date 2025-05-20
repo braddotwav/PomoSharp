@@ -1,21 +1,15 @@
 ﻿using PomoSharp.Models;
 using PomoSharp.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace PomoSharp.ViewModels;
 
-public partial class StatsViewModel : ViewModelBase
+public partial class StatsViewModel(IAppStorage storage) : ViewModelBase
 {
     public override string Name => "Stats";
 
     [ObservableProperty]
-    private Stats _stats;
-
-    public StatsViewModel()
-    {
-        _stats = Ioc.Default.GetRequiredService<JsonStorageProvider<Stats>>().Data;
-    }
+    private Stats _stats = storage.Stats;
 
     public override void OnViewShow() { }
 

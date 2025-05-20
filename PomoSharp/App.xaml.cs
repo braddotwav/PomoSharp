@@ -11,6 +11,7 @@ public partial class App : Application
 {
     private readonly JsonStorageProvider<Settings> _settingsStorage;
     private readonly JsonStorageProvider<Stats> _statsStorage;
+    private readonly AppStorage _storage;
     private readonly MainViewModel _mainViewModel;
 
     public App()
@@ -22,6 +23,7 @@ public partial class App : Application
             new ServiceCollection()
             .AddSingleton(_settingsStorage)
             .AddSingleton(_statsStorage)
+            .AddSingleton<IAppStorage>(_storage)
             .AddSingleton<MainViewModel>()
             .BuildServiceProvider()
         );
@@ -46,6 +48,7 @@ public partial class App : Application
         _settingsStorage.Save();
         _statsStorage.Save();
 
+        _storage.Save();
         base.OnExit(e);
     }
 }

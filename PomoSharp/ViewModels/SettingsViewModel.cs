@@ -19,10 +19,10 @@ public partial class SettingsViewModel : ViewModelBase
 
     private Settings? _cachedSettings;
 
-    public SettingsViewModel()
+    public SettingsViewModel(IAppStorage storage)
     {
         _defaultSettings = new Settings();
-        _settings = Ioc.Default.GetRequiredService<JsonStorageProvider<Settings>>().Data;
+        _settings = storage.Settings;
     }
 
     public override void OnViewShow() 

@@ -24,7 +24,7 @@ public partial class HomeViewModel : ViewModelBase
     private readonly CountdownTimer _countdownTimer;
     private readonly NotificationService _notificationService;
 
-    public HomeViewModel(CountdownTimer timer)
+    public HomeViewModel(CountdownTimer timer, IAppStorage storage)
     {
         _notificationService = new NotificationService();
 
@@ -33,7 +33,7 @@ public partial class HomeViewModel : ViewModelBase
         _countdownTimer.OnDurationChanged += OnCountdownDurationChanged;
         _countdownTimer.OnComplete += OnCountdownComplete;
 
-        _stateMachine = new TimerStateMachine(_countdownTimer);
+        _stateMachine = new TimerStateMachine(_countdownTimer, storage);
         _stateMachine.OnStateChanged += OnStateChanged;
 
         WeakReferenceMessenger.Default.Register<SettingsSavedMessage>(this, (r, m) =>
