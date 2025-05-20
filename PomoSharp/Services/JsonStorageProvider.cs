@@ -21,8 +21,6 @@ public class JsonStorageProvider<T> : IStorageProvider<T> where T : new()
         _basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PomoSharp");
         _fullPath = Path.Combine(_basePath, _fileName);
 
-        ValidateDirectory(_basePath);
-
         Data = Load();
     }
 
@@ -47,7 +45,7 @@ public class JsonStorageProvider<T> : IStorageProvider<T> where T : new()
         }
         catch (Exception)
         {
-            // Log if necessary
+            // todo: log
         }
 
         return Data ??= LoadDefault();

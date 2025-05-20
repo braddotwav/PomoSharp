@@ -12,9 +12,7 @@ public enum TimerStates
 public class TimerStateMachine
 {
     public CountdownTimer CountdownTimer { get; private set; }
-
     public event Action<TimerStates>? OnStateChanged;
-
     public TimerState CurrentState;
 
     private readonly List<TimerState> _states;
