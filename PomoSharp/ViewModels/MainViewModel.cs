@@ -19,20 +19,16 @@ public partial class MainViewModel : ObservableObject
     private string _currentViewTitle = string.Empty;
 
     private readonly CountdownTimer _countdownTimer;
-    private readonly NavigationService _navigationService;
+    private readonly INavigationService _navigationService;
 
-    public MainViewModel()
+    public MainViewModel(CountdownTimer timer, INavigationService navigationService)
     {
-        _countdownTimer = new CountdownTimer();
+        _countdownTimer = timer;
         _countdownTimer.OnElapsed += OnCountdownElapsed;
         _countdownTimer.OnDurationChanged += OnDurationChanged;
 
-        _navigationService = new();
+        _navigationService = navigationService;
         _navigationService.OnNavigationChanged += OnNavigationChanged;
-
-        _navigationService.Register(new HomeViewModel(_countdownTimer));
-        _navigationService.Register(new StatsViewModel());
-        _navigationService.Register(new SettingsViewModel());
 
         _navigationService.Change<HomeViewModel>();
     }

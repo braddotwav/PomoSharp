@@ -21,12 +21,20 @@ public partial class App : Application
 
         Ioc.Default.ConfigureServices(
             new ServiceCollection()
-            .AddSingleton(_settingsStorage)
-            .AddSingleton(_statsStorage)
+            .AddSingleton<CountdownTimer>()
             .AddSingleton<IAppStorage>(_storage)
             .AddSingleton<MainViewModel>()
+            .AddSingleton<HomeViewModel>()
+            .AddSingleton<StatsViewModel>()
+            .AddSingleton<SettingsViewModel>()
+            .AddSingleton<INavigationService, NavigationService>()
             .BuildServiceProvider()
         );
+
+        INavigationService navigationService = Ioc.Default.GetRequiredService<INavigationService>();
+        navigationService.Register(Ioc.Default.GetRequiredService<HomeViewModel>());
+        navigationService.Register(Ioc.Default.GetRequiredService<StatsViewModel>());
+        navigationService.Register(Ioc.Default.GetRequiredService<SettingsViewModel>());
 
         _mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
     }
