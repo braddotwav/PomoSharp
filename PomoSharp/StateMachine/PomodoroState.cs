@@ -1,8 +1,9 @@
 ﻿using PomoSharp.Models;
+using PomoSharp.Services;
 
 namespace PomoSharp.StateMachine;
 
-public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMachine)
+public class PomodoroState(TimerStateMachine stateMachine, IAppStorage storage) : TimerState(stateMachine, storage)
 {
     private int _pomodorosCompleted;
 
@@ -14,12 +15,12 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
 
     public override void OnEnter()
     {
-        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.PomodoroDuration));
+        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Storage.Settings.PomodoroDuration));
     }
 
     public override void OnExit()
     {
-        if (!Settings.Data.ShouldAutoStartBreak)
+        if (!Storage.Settings.ShouldAutoStartBreak)
         {
             StateMachine.CountdownTimer.Stop();
         }
@@ -36,15 +37,15 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
     protected override void UpdateReport()
     {
         base.UpdateReport();
-        Stats.Data.PomodorosCompleted++;
-        Stats.Data.TotalFocusHours += Duration;
-        Stats.Data.DailyStreak = CalculateDailyStreak(Stats.Data.LastPomodoroCompletedAt);
-        Stats.Data.LastPomodoroCompletedAt = DateTime.Now;
+        Storage.Stats.PomodorosCompleted++;
+        Storage.Stats.TotalFocusHours += Duration;
+        Storage.Stats.DailyStreak = CalculateDailyStreak(Storage.Stats.LastPomodoroCompletedAt);
+        Storage.Stats.LastPomodoroCompletedAt = DateTime.Now;
     }
 
     private bool IsLongBreakDue()
     {
-        return _pomodorosCompleted % Settings.Data.LongBreakInterval == 0;
+        return _pomodorosCompleted % Storage.Settings.LongBreakInterval == 0;
     }
 
     private int CalculateDailyStreak(DateTime lastPomodoro)
@@ -56,8 +57,8 @@ public class PomodoroState(TimerStateMachine stateMachine) : TimerState(stateMac
 
         return dayDifference switch
         {
-            0 => Stats.Data.DailyStreak,
-            1 => Stats.Data.DailyStreak + 1,
+            0 => Storage.Stats.DailyStreak,
+            1 => Storage.Stats.DailyStreak + 1,
             _ => 1
         };
     }

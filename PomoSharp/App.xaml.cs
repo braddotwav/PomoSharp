@@ -9,15 +9,15 @@ namespace PomoSharp;
 
 public partial class App : Application
 {
-    private readonly JsonStorageProvider<Settings> _settingsStorage;
-    private readonly JsonStorageProvider<Stats> _statsStorage;
     private readonly AppStorage _storage;
     private readonly MainViewModel _mainViewModel;
 
     public App()
     {
-        _settingsStorage = new("settings");
-        _statsStorage = new("stats");
+        JsonStorageProvider<Settings> settingsStorage = new("settings");
+        JsonStorageProvider<Stats> statsStorage = new("stats");
+        
+        _storage = new AppStorage(settingsStorage, statsStorage);
 
         Ioc.Default.ConfigureServices(
             new ServiceCollection()
@@ -45,9 +45,6 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _settingsStorage.Save();
-        _statsStorage.Save();
-
         _storage.Save();
         base.OnExit(e);
     }

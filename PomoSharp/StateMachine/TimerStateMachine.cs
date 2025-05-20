@@ -16,15 +16,17 @@ public class TimerStateMachine
     public TimerState CurrentState;
 
     private readonly List<TimerState> _states;
+    private readonly IAppStorage _storage;
 
-    public TimerStateMachine(CountdownTimer countdownTimer)
+    public TimerStateMachine(CountdownTimer countdownTimer, IAppStorage storage)
     {
-        _states = [new PomodoroState(this), new ShortBreakState(this), new LongBreakState(this)];
+        _storage = storage;
+        _states = [new PomodoroState(this, _storage), new ShortBreakState(this, _storage), new LongBreakState(this, _storage)];
 
         CountdownTimer = countdownTimer;
         CountdownTimer.OnComplete += OnCountdownComplete;
 
-        CurrentState = new DefaultTimerState(this);
+        CurrentState = new DefaultTimerState(this, _storage);
         CurrentState.OnEnter();
     }
 

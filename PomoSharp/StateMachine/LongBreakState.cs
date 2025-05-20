@@ -1,8 +1,9 @@
 ﻿using PomoSharp.Models;
+using PomoSharp.Services;
 
 namespace PomoSharp.StateMachine;
 
-public class LongBreakState(TimerStateMachine stateMachine) : BreakState(stateMachine)
+public class LongBreakState(TimerStateMachine stateMachine, IAppStorage storage) : BreakState(stateMachine, storage)
 {
     public override NotificationContext CompletedNotificationContext => new()
     {
@@ -12,6 +13,6 @@ public class LongBreakState(TimerStateMachine stateMachine) : BreakState(stateMa
 
     public override void OnEnter()
     {
-        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Settings.Data.LongDuration));
+        StateMachine.CountdownTimer.SetDuration(TimeSpan.FromMinutes(Storage.Settings.LongDuration));
     }
 }

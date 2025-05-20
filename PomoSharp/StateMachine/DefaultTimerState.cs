@@ -1,6 +1,8 @@
-﻿namespace PomoSharp.StateMachine;
+﻿using PomoSharp.Services;
 
-public class DefaultTimerState(TimerStateMachine stateMachine) : TimerState(stateMachine)
+namespace PomoSharp.StateMachine;
+
+public class DefaultTimerState(TimerStateMachine stateMachine, IAppStorage storage) : TimerState(stateMachine, storage)
 {
     public override void OnEnter()
     {

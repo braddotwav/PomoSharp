@@ -1,10 +1,12 @@
-﻿namespace PomoSharp.StateMachine;
+﻿using PomoSharp.Services;
 
-public abstract class BreakState(TimerStateMachine stateMachine) : TimerState(stateMachine)
+namespace PomoSharp.StateMachine;
+
+public abstract class BreakState(TimerStateMachine stateMachine, IAppStorage storage) : TimerState(stateMachine, storage)
 {
     public override void OnExit()
     {
-        if (!Settings.Data.ShouldAutoStartPomodoro)
+        if (!Storage.Settings.ShouldAutoStartPomodoro)
         {
             StateMachine.CountdownTimer.Stop();
         }
@@ -21,7 +23,7 @@ public abstract class BreakState(TimerStateMachine stateMachine) : TimerState(st
     {
         base.UpdateReport();
 
-        Stats.Data.TotalBreakHours += Duration;
+        Storage.Stats.TotalBreakHours += Duration;
     }
 
     public override void OnEnter() { }
