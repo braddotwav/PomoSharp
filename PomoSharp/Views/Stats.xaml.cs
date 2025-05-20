@@ -5,9 +5,9 @@ namespace PomoSharp.Views
     /// <summary>
     /// Interaction logic for Report.xaml
     /// </summary>
-    public partial class Report : UserControl
+    public partial class Stats : UserControl
     {
-        public Report()
+        public Stats()
         {
             InitializeComponent();
         }

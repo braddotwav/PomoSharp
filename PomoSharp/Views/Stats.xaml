@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="PomoSharp.Views.Report"
+    x:Class="PomoSharp.Views.Stats"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -32,17 +32,17 @@
                 Title="Focused Hours"
                 Grid.Column="0"
                 Padding="6"
-                Value="{Binding Report.TotalFocusHours, StringFormat='{}{0:%h}'}" />
+                Value="{Binding Stats.TotalFocusHours, StringFormat='{}{0:%h}'}" />
             <usercontrols:ReportCard
                 Title="Break Hours"
                 Grid.Column="1"
                 Padding="6"
-                Value="{Binding Report.TotalBreakHours, StringFormat='{}{0:%h}'}" />
+                Value="{Binding Stats.TotalBreakHours, StringFormat='{}{0:%h}'}" />
             <usercontrols:ReportCard
                 Title="Total Hours"
                 Grid.Column="2"
                 Padding="6"
-                Value="{Binding Report.TotalHours, StringFormat='{}{0:%h}'}" />
+                Value="{Binding Stats.TotalHours, StringFormat='{}{0:%h}'}" />
         </Grid>
 
         <Grid Grid.Row="2">
@@ -56,12 +56,12 @@
                 Title="Daily Streak"
                 Grid.Column="0"
                 Padding="6"
-                Value="{Binding Report.DailyStreak}" />
+                Value="{Binding Stats.DailyStreak}" />
             <usercontrols:ReportCard
                 Title="Pomodoros Completed"
                 Grid.Column="1"
                 Padding="6"
-                Value="{Binding Report.PomodorosCompleted}" />
+                Value="{Binding Stats.PomodorosCompleted}" />
         </Grid>
     </Grid>
 </UserControl>
