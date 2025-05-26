@@ -2,8 +2,9 @@
 using PomoSharp.Models;
 using PomoSharp.Services;
 using PomoSharp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Extensions.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace PomoSharp;
 
@@ -43,6 +44,8 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
+
         Window mainView = new MainWindow
         {
             DataContext = _mainViewModel
@@ -55,5 +58,34 @@ public partial class App : Application
     {
         _storage.Save();
         base.OnExit(e);
+    }
+    
+    private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
+    {
+        if (e.Argument == "pomosharp")
+        {
+            try
+            {
+                BringMainWindowToFront();
+            }
+            catch (Exception)
+            {
+                // todo: log
+            }
+        }
+    }
+
+    private void BringMainWindowToFront()
+    {
+        Current.Dispatcher.Invoke(() =>
+        {
+            var window = Current.MainWindow ?? throw new InvalidOperationException("Main window is not set.");
+
+            if (window.WindowState != WindowState.Normal)
+                window.WindowState = WindowState.Normal;
+
+            window.Activate();
+            window.Focus();
+        });
     }
 }

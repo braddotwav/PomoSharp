@@ -8,6 +8,7 @@ public class NotificationService : INotificationService
     public void Push(NotificationContext context)
     {
         var notification = new ToastContentBuilder()
+            .AddArgument("pomosharp")
             .AddText(context.Title)
             .AddText(context.Message);
 
