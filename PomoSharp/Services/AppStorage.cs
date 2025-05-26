@@ -11,9 +11,12 @@ public class AppStorage(JsonStorageProvider<Settings> settingsStorage,
     public Settings Settings => _settingsStorage.Data;
     public Stats Stats => _statsStorage.Data;
 
+    public event Action? OnStorageSaved;
+
     public void Save()
     {
         _settingsStorage.Save();
         _statsStorage.Save();
+        OnStorageSaved?.Invoke();
     }
 }

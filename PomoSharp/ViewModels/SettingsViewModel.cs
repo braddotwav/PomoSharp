@@ -1,42 +1,31 @@
 ﻿using PomoSharp.Models;
 using PomoSharp.Services;
-using PomoSharp.Messages;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace PomoSharp.ViewModels;
 
-public partial class SettingsViewModel : ViewModelBase
+public partial class SettingsViewModel(IAppStorage storage) : ViewModelBase
 {
     public override string Name => "Settings";
 
     [ObservableProperty]
-    private Settings _settings;
+    private Settings _settings = storage.Settings;
 
     [ObservableProperty]
-    private Settings _defaultSettings;
+    private Settings _defaultSettings = new();
 
     private Settings? _cachedSettings;
 
-    public SettingsViewModel(IAppStorage storage)
-    {
-        _defaultSettings = new Settings();
-        _settings = storage.Settings;
-    }
-
-    public override void OnViewShow() 
+    public override void OnViewShow()
     {
         _cachedSettings = new(Settings);
     }
 
     public override void OnViewHide()
     {
-        if (UserHasUnsavedChanges()) 
-        {
-            Ioc.Default.GetRequiredService<JsonStorageProvider<Settings>>().Save();
-            WeakReferenceMessenger.Default.Send<SettingsSavedMessage>();
-        }
+        if (!UserHasUnsavedChanges()) return;
+        
+        storage.Save();
     }
 
     private bool UserHasUnsavedChanges() 

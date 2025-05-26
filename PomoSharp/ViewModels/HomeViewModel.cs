@@ -1,8 +1,6 @@
 ﻿using PomoSharp.Services;
-using PomoSharp.Messages;
 using PomoSharp.StateMachine;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PomoSharp.ViewModels;
@@ -36,10 +34,12 @@ public partial class HomeViewModel : ViewModelBase
         _stateMachine = new TimerStateMachine(_countdownTimer, storage);
         _stateMachine.OnStateChanged += OnStateChanged;
 
-        WeakReferenceMessenger.Default.Register<SettingsSavedMessage>(this, (r, m) =>
-        {
-            _stateMachine.RefreshCurrentState();
-        });
+        storage.OnStorageSaved += OnStorageSaved;
+    }
+
+    private void OnStorageSaved()
+    {
+        _stateMachine.RefreshCurrentState();
     }
 
     private void OnCountdownDurationChanged(TimeSpan duration)
