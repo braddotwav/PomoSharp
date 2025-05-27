@@ -64,30 +64,14 @@ public partial class App : Application
     
     private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
     {
-        if (e.Argument == "pomosharp")
+        ToastArguments args = ToastArguments.Parse(e.Argument);
+
+        if (args["action"] == "openApp")
         {
-            try
+            Current.Dispatcher.Invoke(() =>
             {
-                BringMainWindowToFront();
-            }
-            catch (Exception)
-            {
-                // todo: log
-            }
+                SingleInstance.ShowCurrentMainWindow();
+            });
         }
-    }
-
-    private void BringMainWindowToFront()
-    {
-        Current.Dispatcher.Invoke(() =>
-        {
-            var window = Current.MainWindow ?? throw new InvalidOperationException("Main window is not set.");
-
-            if (window.WindowState != WindowState.Normal)
-                window.WindowState = WindowState.Normal;
-
-            window.Activate();
-            window.Focus();
-        });
     }
 }
