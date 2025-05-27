@@ -3,8 +3,8 @@ using PomoSharp.Models;
 using PomoSharp.Services;
 using PomoSharp.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PomoSharp;
 
@@ -15,6 +15,8 @@ public partial class App : Application
 
     public App()
     {
+        SingleInstance.Make("PomoSharp");
+
         JsonStorageProvider<Settings> settingsStorage = new("settings");
         JsonStorageProvider<Stats> statsStorage = new("stats");
         
